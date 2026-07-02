@@ -1,7 +1,10 @@
 # 🚀 Career Pathway - AI-Powered Job Search & Career Development Platform
 
-A modern, full-featured web application designed to help job seekers find the perfect role, analyze their resumes, prepare for interviews, and upskill with AI-powered recommendations.
+🌐 **Live Demo:** https://career-pathway-ai.vercel.app
 
+💻 **GitHub Repository:** https://github.com/sankarkavitha56-sys/career-pathway-ai
+
+A modern AI-powered career platform that helps job seekers discover jobs, analyze resumes, prepare for interviews, and upskill through personalized recommendations.
 ## ✨ Features
 
 - **🔍 Smart Job Search** - Find jobs matching your skills using RapidAPI JSearch integration
