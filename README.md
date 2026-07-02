@@ -21,6 +21,27 @@ A modern, full-featured web application designed to help job seekers find the pe
 - **Charts**: Recharts
 - **APIs**: RapidAPI (JSearch), Grok API
 - **PDF Handling**: PDF.js
+# 📸 Application Screenshots
+
+| Dashboard | Job Search |
+|-----------|------------|
+| ![](./screenshots/dashboard.png) | ![](./screenshots/job_search.png) |
+
+| Resume Analyzer | Resume Generator |
+|-----------------|------------------|
+| ![](./screenshots/resume_analyzer.png) | ![](./screenshots/generate_resume.png) |
+
+| Mock Interview | Mock Aptitude |
+|----------------|---------------|
+| ![](./screenshots/mock_interviews.png) | ![](./screenshots/mock_aptitude.png) |
+
+| Mock Group Discussion | Recommended Courses |
+|-----------------------|---------------------|
+| ![](./screenshots/mock_gd.png) | ![](./screenshots/recommended_course.png) |
+
+| Application Tracker |
+|---------------------|
+| ![](./screenshots/apply_status.png) |
 
 ## 📦 Installation
 
