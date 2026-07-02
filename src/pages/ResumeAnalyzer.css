@@ -1,0 +1,609 @@
+/* ── Layout Helpers ─────────────────────────────────────────────────────── */
+.align-start {
+  align-items: flex-start;
+}
+
+.analyzer-card {
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+  background: white;
+  border: 1px solid #f1f5f9;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.shadow-btn {
+  box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.39);
+}
+
+/* ── Border dividers (used in pillar rows) ──────────────────────────────── */
+.border-bottom {
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.border-bottom-dashed {
+  border-bottom: 1px dashed #e2e8f0;
+}
+
+/* ── File chip name ─────────────────────────────────────────────────────── */
+.file-chip-name {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #3730a3;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lh-relaxed {
+  line-height: 1.625;
+}
+
+/* ── Score Circle & Badges ──────────────────────────────────────────────── */
+.score-excellent {
+  border-color: #5bd1b0;
+  color: #115e59;
+  stroke: #5bd1b0;
+}
+
+.score-good {
+  border-color: #5bd1b0;
+  color: #0d9488;
+  stroke: #5bd1b0;
+}
+
+.score-average {
+  border-color: #d9886a;
+  color: #9a3412;
+  stroke: #d9886a;
+}
+
+.score-poor {
+  border-color: #ef4444;
+  color: #b91c1c;
+  stroke: #ef4444;
+}
+
+.score-gray {
+  border-color: #94a3b8;
+  color: #475569;
+  stroke: #e2e8f0;
+}
+
+.score-number {
+  font-size: 2.25rem;
+  line-height: 1;
+}
+
+.score-max {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.rating-badge {
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: inline-block;
+}
+
+.rating-badge.score-excellent {
+  background-color: #dcfce7;
+}
+
+.rating-badge.score-good {
+  background-color: #dbeafe;
+}
+
+.rating-badge.score-average {
+  background-color: #fef3c7;
+}
+
+.rating-badge.score-poor {
+  background-color: #fee2e2;
+}
+
+/* ── Card Flip — Independent per-face perspective (no preserve-3d) ────────── */
+.pillar-card-wrapper-single {
+  height: 320px;
+  cursor: pointer;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.pillar-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  /* NO transform-style: preserve-3d — each face is its own independent layer */
+}
+
+/* ── Shared face base ─────────────────────────────────────────────────────── */
+.pillar-card-front,
+.pillar-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* ── FRONT face ───────────────────────────────────────────────────────────── */
+.pillar-card-front {
+  /* perspective() inline = independent GPU layer, no shared 3d context */
+  transform: perspective(1000px) rotateY(0deg);
+  opacity: 1;
+  pointer-events: auto;
+  /* Fold away in 0.3s, then cut opacity so it cannot ghost */
+  transition: transform 0.3s ease-in, opacity 0s linear 0.3s;
+  z-index: 2;
+}
+
+.pillar-card-inner.is-flipped .pillar-card-front {
+  transform: perspective(1000px) rotateY(-90deg);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.3s ease-in, opacity 0s linear 0.3s;
+}
+
+/* ── BACK face ────────────────────────────────────────────────────────────── */
+.pillar-card-back {
+  /* Starts folded away at +90deg. Only appears after front has gone (0.3s delay) */
+  transform: perspective(1000px) rotateY(90deg);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.3s ease-out 0.3s, opacity 0s linear 0.3s;
+  background: #f8fafc;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: left;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.pillar-card-inner.is-flipped .pillar-card-back {
+  transform: perspective(1000px) rotateY(0deg);
+  opacity: 1;
+  pointer-events: auto;
+  transition: transform 0.3s ease-out 0.3s, opacity 0s linear 0.3s;
+}
+
+.text-xxs {
+  font-size: 0.65rem;
+}
+
+/* ── Measure Tracks inside back card ─────────────────────────────────────── */
+.measure-row {
+  width: 100%;
+}
+
+.measure-track {
+  width: 100%;
+  height: 6px;
+  background-color: #e2e8f0;
+  border-radius: 9999px;
+  overflow: hidden;
+  /* No contain/will-change — these create extra sub-layers inside a
+     transformed parent and cause compositing thrash */
+}
+
+.measure-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+  border-radius: 9999px;
+  /* No will-change: width — values are set once at render, never animated again */
+}
+
+/* ── Layout Flex/Grid backups ───────────────────────────────────────────── */
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.flex-1 {
+  flex: 1 1 0%;
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.w-12 {
+  width: 3rem;
+}
+
+.w-14 {
+  width: 3.5rem;
+}
+
+.gap-6 {
+  gap: 1.5rem;
+}
+
+.gap-4 {
+  gap: 1rem;
+}
+
+.gap-3 {
+  gap: 0.75rem;
+}
+
+.grid {
+  display: grid;
+}
+
+.grid-cols-12 {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (min-width: 1024px) {
+  .lg\:col-span-3 {
+    grid-column: span 3 / span 3;
+  }
+
+  .lg\:col-span-9 {
+    grid-column: span 9 / span 9;
+  }
+
+  .lg\:grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1024px) {
+  .grid-cols-12 {
+    grid-template-columns: 1fr;
+  }
+
+  .lg\:col-span-3,
+  .lg\:col-span-9 {
+    grid-column: span 12 / span 12;
+  }
+}
+
+@media (min-width: 768px) {
+  .md\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ── Suggestion row list bar style ─────────────────────────────────────── */
+.suggestion-item {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  padding: 0.75rem;
+  background-color: #fff;
+  border-radius: 0.75rem;
+  transition: background-color 0.2s;
+}
+
+.suggestion-item:hover {
+  background-color: #f8fafc;
+}
+
+.suggestion-number {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background-color: #e0e7ff;
+  color: #4338ca;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.bg-green-50-soft {
+  background-color: rgba(240, 253, 244, 0.7);
+  border-left: 4px solid #22c55e;
+}
+
+.bg-red-50-soft {
+  background-color: rgba(254, 242, 242, 0.7);
+  border-left: 4px solid #ef4444;
+}
+
+/* ── Tags structure ────────────────────────────────────────────────────── */
+.tag {
+  display: inline-flex;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border-radius: 9999px;
+}
+
+.tag-success {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.tag-warning {
+  background-color: #ffedd5;
+  color: #9a3412;
+}
+
+/* ── Textarea JD setups ────────────────────────────────────────────────── */
+.jd-textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid #e2e8f0;
+  font-family: inherit;
+  font-size: 0.85rem;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s;
+  color: #334155;
+}
+
+.jd-textarea:focus {
+  border-color: #3b82f6;
+}
+
+/* ── File chip ─────────────────────────────────────────────────────────── */
+.file-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #f0f4ff;
+  border: 1px solid #c7d7fe;
+  border-radius: 9999px;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.8rem;
+  color: #3730a3;
+  font-weight: 500;
+}
+
+.file-chip-remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6366f1;
+  padding: 0;
+}
+
+@keyframes pulse-border {
+
+  0%,
+  100% {
+    border-color: #6ee7b7;
+  }
+
+  50% {
+    border-color: #10b981;
+  }
+}
+
+/* ── Hybrid ATS Formula Breakdown Box ─────────────────────────────────── */
+.ats-formula-box {
+  background: linear-gradient(135deg, #f8faff 0%, #f0f4ff 100%);
+  border: 1px solid #e0e7ff;
+  border-radius: 0.75rem;
+  padding: 0.75rem 0.85rem;
+  margin-top: 0.25rem;
+}
+
+.ats-formula-title {
+  font-size: 0.6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #94a3b8;
+  margin-bottom: 0.55rem;
+}
+
+.ats-formula-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem;
+  padding: 0.22rem 0;
+}
+
+.ats-formula-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #475569;
+  flex: 1;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.ats-formula-weight {
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #94a3b8;
+  background: #e2e8f0;
+  border-radius: 4px;
+  padding: 0.1rem 0.3rem;
+  letter-spacing: 0.02em;
+}
+
+.ats-formula-val {
+  font-size: 0.78rem;
+  font-weight: 700;
+  min-width: 2rem;
+  text-align: right;
+}
+
+.ats-formula-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #c7d7fe, transparent);
+  margin: 0.4rem 0;
+}
+
+.ats-formula-total .ats-formula-label {
+  color: #1e293b;
+}
+
+.ats-formula-total .ats-formula-val {
+  font-size: 0.9rem;
+}
+
+.ats-formula-note {
+  font-size: 0.6rem;
+  color: #94a3b8;
+  text-align: center;
+  margin-top: 0.45rem;
+  line-height: 1.4;
+  font-style: italic;
+}
+
+/* ── Card flip hint \u2014 bottom of each card face \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
+.card-flip-hint {
+  font-size: 0.62rem;
+  color: #94a3b8;
+  text-align: center;
+  margin-top: 0.6rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed #e2e8f0;
+  letter-spacing: 0.02em;
+  font-weight: 500;
+  /* Subtle pulsing underline to draw attention */
+  text-decoration: underline;
+  text-decoration-color: #c7d7fe;
+  text-underline-offset: 3px;
+}
+
+/* ── Analyzing Overlay & Empty State ───────────────────────────────────── */
+.analyzing-overlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(4px);
+  border-radius: 1.25rem;
+  border: 1px solid #e2e8f0;
+  margin-top: 2rem;
+}
+
+.analyzing-spinner {
+  width: 3rem;
+  height: 3rem;
+  border: 4px solid #f1f5f9;
+  border-top: 4px solid #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1.5rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.analyzing-label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem 2rem;
+  text-align: center;
+  background: #f8fafc;
+  border: 2px dashed #e2e8f0;
+  border-radius: 1.5rem;
+  margin-top: 2rem;
+}
+
+.empty-state-icon {
+  color: #94a3b8;
+  margin-bottom: 1.5rem;
+}
+
+.empty-state-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 0.75rem;
+}
+
+.empty-state-sub {
+  font-size: 1rem;
+  color: #64748b;
+  max-width: 400px;
+  margin: 0;
+}
+
+/* ── Error Banner ────────────────────────────────────────────────────── */
+.error-banner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #fef2f2;
+  border: 1px solid #fee2e2;
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  position: relative;
+}
+
+.error-message {
+  color: #b91c1c;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin: 0;
+  flex: 1;
+}
+
+.error-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #991b1b;
+  padding: 0.25rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-close:hover {
+  background: #fee2e2;
+}

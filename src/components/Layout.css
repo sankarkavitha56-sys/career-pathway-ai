@@ -1,0 +1,13 @@
+.layout-container {
+  overflow: hidden;
+  background-color: var(--sidebar-bg);
+}
+
+.layout-main {
+  min-width: 0;
+}
+
+.layout-content {
+  overflow-y: auto;
+  background-color: #fafafa;
+}
